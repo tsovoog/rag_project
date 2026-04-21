@@ -1,0 +1,26 @@
+# ─── Core RAG Libraries ───────────────────────────────
+langchain>=0.3.0
+langchain-community>=0.3.0
+langchain-chroma>=0.1.4
+langchain-ollama>=0.2.0
+langchain-text-splitters>=0.3.0
+chromadb>=0.5.0
+
+# ─── PDF уншигч ───────────────────────────────────────
+pypdf>=4.0.0           # Текст хэлбэртэй PDF
+pdfplumber>=0.11.0     # Хүснэгт бүхий PDF
+
+# ─── Зурган PDF (OCR) ─────────────────────────────────
+# pdf2image болон pytesseract ашиглана.
+# Нэмэлт суулгалт:
+#   pip install pdf2image pytesseract
+#   sudo apt-get install tesseract-ocr tesseract-ocr-mon poppler-utils
+pdf2image>=1.17.0
+pytesseract>=0.3.13
+
+# ─── DOCX уншигч ──────────────────────────────────────
+python-docx>=1.1.0     # Текст + хүснэгт + python-docx
+docx2txt>=0.8          # Backup DOCX уншигч
+
+# ─── Тест ─────────────────────────────────────────────
+pytest>=8.0.0
