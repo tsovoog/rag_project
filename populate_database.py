@@ -51,6 +51,22 @@ def load_documents() -> list:
     return documents
 
 
+def _clean_pdf_text(text: str) -> str:
+    import re
+    text = re.sub(r"-\n\s*", "", text)
+    text = re.sub(r"(?<!\n)\n(?!\n)", " ", text)
+    text = re.sub(r"  +", " ", text)
+    return text.strip()
+
+
+def _clean_pdf_text(text: str) -> str:
+    import re
+    text = re.sub(r"-\n\s*", "", text)
+    text = re.sub(r"(?<!\n)\n(?!\n)", " ", text)
+    text = re.sub(r"  +", " ", text)
+    return text.strip()
+
+
 def _load_pdf(file_path: str, filename: str) -> list:
     # 1. pypdf
     try:
@@ -58,7 +74,7 @@ def _load_pdf(file_path: str, filename: str) -> list:
         reader = pypdf.PdfReader(file_path)
         pages = []
         for i, page in enumerate(reader.pages):
-            text = (page.extract_text() or "").strip()
+            text = _clean_pdf_text(page.extract_text() or "")
             if text:
                 pages.append(Document(
                     page_content=text,
@@ -165,32 +181,23 @@ def _load_docx(file_path: str, filename: str) -> list:
 
 
 def split_documents(documents: list) -> list:
-    """
-    Баримт бичгийг chunk-уудад хуваана.
-    Монгол өгүүлбэрийн төгсгөл болон догол мөрийг
-    хуваагч болгон ашиглана.
-    """
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=CHUNK_SIZE,
         chunk_overlap=CHUNK_OVERLAP,
         length_function=len,
         separators=[
-            "\n\n",        # Догол мөр
-            "\n",          # Мөр
-            "оршино.",     # Монгол өгүүлбэр төгсгөл
+            "\n\n",        
+            "\n",          
+            "оршино.",     
             "байна.",
             "болно.",
             "юм.",
             "байжээ.",
             "болжээ.",
             "гэжээ.",
-            "мөрдөнө.",
-            "зохицуулна.",
-            "үйлчилнэ.",
-            "хамаарахгүй.",
-            ". ",          # Ерөнхий цэг
-            " ",           # Зай
-            "",            # Тэмдэгт
+            ". ",         
+            " ",           
+            "",           
         ],
         is_separator_regex=False,
     )
